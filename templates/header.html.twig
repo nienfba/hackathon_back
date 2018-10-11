@@ -1,0 +1,63 @@
+{# /***
+ *    ██╗  ██╗███████╗ █████╗ ██████╗ ███████╗██████╗ 
+ *    ██║  ██║██╔════╝██╔══██╗██╔══██╗██╔════╝██╔══██╗
+ *    ███████║█████╗  ███████║██║  ██║█████╗  ██████╔╝
+ *    ██╔══██║██╔══╝  ██╔══██║██║  ██║██╔══╝  ██╔══██╗
+ *    ██║  ██║███████╗██║  ██║██████╔╝███████╗██║  ██║
+ *    ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚═════╝ ╚══════╝╚═╝  ╚═╝
+ *                                                    
+ */ #}
+
+<header class="row">
+    <nav class="navbar fixed-top navbar-light col-xs-12 col-xl-10 offset-xl-1 nav-menu">
+        <a class="navbar-brand" href="{{ path('home') }}">
+            <img src="{{ asset ('assets/img/c4m_small.png') }}" alt="Code4Marseille" />
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerMenu" aria-controls="navbarTogglerMenu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarTogglerMenu">
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                {% if 'ROLE_ADMIN' in app.user.roles  %}
+                    <div class="dropdown-divider"></div>
+                    <a class="navbar-nav lien-nav" href="{{ path('actus') }}">Carte des infos</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="navbar-nav lien-nav" href="{{ path('admin_zone') }}">Espace Admin</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="navbar-nav lien-nav" href="{{ path('info_index') }}">Infos</a>
+                    <a class="navbar-nav lien-nav" href="{{ path('member_index') }}">Membres</a>
+                    <a class="navbar-nav lien-nav" href="{{ path('private_group_index') }}">Groupes</a>
+                    <a class="navbar-nav lien-nav" href="{{ path('message_index') }}">Messages</a>
+                    <a class="navbar-nav lien-nav" href="{{ path('media_index') }}">Media</a>
+                    <a class="navbar-nav lien-nav" href="{{ path('category_index') }}">Categories</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="navbar-nav lien-nav" href="{{ path('contact') }}">Contactez-nous</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="navbar-nav lien-nav" href="{{ path('logout') }}">Déconnexion</a>
+                {% else %}
+                    <div class="dropdown-divider"></div>
+                    <a class="navbar-nav lien-nav" href="{{ path('new-info') }}">Publier une nouvelle info</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="navbar-nav lien-nav" href="{{ path('actus') }}">Carte des infos</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="navbar-nav lien-nav" href="{{ path('member_zone') }}">Mon Espace Membre</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="navbar-nav lien-nav" href="{{ path('contact') }}">Contactez-nous</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="navbar-nav lien-nav" href="{{ path('logout') }}">Déconnexion</a>
+                {% endif %}
+            {% else %}
+                    <div class="dropdown-divider"></div>
+                    <a class="navbar-nav lien-nav" href="{{ path('login') }}">Connexion</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="navbar-nav lien-nav" href="{{ path('actus') }}">Carte des infos</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="navbar-nav lien-nav" href="{{ path('inscription') }}">Inscription</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="navbar-nav lien-nav" href="{{ path('contact') }}">Contactez-nous</a>
+            {% endif %}
+
+        </div>
+    </nav>
+</header>
+<div class="decalage-header"></div>

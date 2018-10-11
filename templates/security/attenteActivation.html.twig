@@ -1,0 +1,18 @@
+{% extends 'base-public.html.twig' %}
+
+{% block main %}
+
+  <div class="jumbotron jumbotron-fluid">
+    <div class="container">
+      <h1 class="display-4">Message de confirmation !</h1>
+      <hr class="my-3">
+      <p class="lead">Votre espace membre vient d'être créé.</p>
+      <p class="lead">Vous allez recevoir sur votre boite mail un message permettant d'activer votre espace membre.</p>
+      <hr class="my-3">
+      <p class="lead">
+        <a class="btn btn-primary btn-lg" href="{{ path('home') }}" role="button">Accueil</a>
+      </p>
+    </div>
+  </div>
+
+{% endblock %}

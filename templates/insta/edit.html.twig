@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edition Instagram{% endblock %}
+
+{% block body %}
+    <h1 class="InstAdmin">Edition Instagram</h1>
+    <img src="{{ instum.StandardResolution }}" alt="" class="Insta" />
+    <div class="InstAdmin">
+    
+    <div class="centre margin"><a href="{{ path('insta_index') }}"><button class="btn" title="Retour à la liste"><i class="fas fa-reply"></i></button></a></div>
+    <div class="">{{ include('insta/_form.html.twig', {'button_label': 'Sauve'}) }}</div>
+    <div class="centre"><a href="{{ path('insta_index') }}"><button class="btn" title="Retour à la liste"><i class="fas fa-reply"></i></button></a></div>
+    </div>
+    <br />
+    <div class="centre">{{ include('insta/_delete_form.html.twig') }}</div>
+{% endblock %}

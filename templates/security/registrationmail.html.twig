@@ -1,0 +1,17 @@
+<h3>Bonjour, {{ username }}! </h3>
+
+<p>Félicitation pour votre inscription !!!</p>
+<p>Rappel de vos informations personelles:</p>
+
+<TABLE BORDER>
+	<TR>
+		<TH>  Nom d'utilisateur  </TH> <TH>Adresse email</TH>
+	</TR>
+	<TR>
+		<TD> {{ username }}</TD> <TD> {{ email }} </TD>
+	</TR>
+</TABLE>
+
+<p>Pour vous connecter merci de cliquer sur le lien suivant :</p> 
+<p><a href="{{url('activation')}}/?log={{ username }}&cle={{ cle }}" > cliquer ici pour activer votre espace membre</a></p>
+<p>Cordialement, MyProvence</p>

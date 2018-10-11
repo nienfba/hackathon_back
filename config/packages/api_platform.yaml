@@ -1,0 +1,23 @@
+# https://api-platform.com/docs/core/configuration/
+api_platform:
+    mapping:
+        paths: ['%kernel.project_dir%/src/Entity']
+    eager_loading:
+        # To enable or disable eager loading.
+        enabled: false
+        # Force join on every relation.
+        # If disabled, it will only join relations having the EAGER fetch mode.
+        force_eager: false
+    collection:
+        order: 'ASC'
+        pagination:
+            enabled: true
+            client_enabled: true
+            client_items_per_page: true
+            items_per_page: 100
+            maximum_items_per_page: 1000
+
+# AJOUTER DANS .env
+###> nelmio/cors-bundle ###
+#CORS_ALLOW_ORIGIN=^https?://localhost(:[0-9]+)?$
+###< nelmio/cors-bundle ###

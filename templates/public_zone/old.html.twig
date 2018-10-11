@@ -1,0 +1,162 @@
+{% extends 'base-public.html.twig' %}
+
+{% block main %}
+
+    {% include('public_zone/section-banner.html.twig') %}
+
+    {% if tabInfo is defined and tabInfo is not empty %}
+        <div class="container-fluid">
+
+            {# filtres par catégories #}
+            <div class="row my-2">
+                <div class="col-xs-12 col-sm-12 d-flex justify-content-between flex-wrap">
+                    {% for categorie in listeCategorie %}
+                        <a href="{{ path('actus', {'urlCategorie': categorie.urlName}) }}"
+                           class="btn btn-danger" data-container="body" data-toggle="popover" data-placement="top" data-trigger="hover focus"
+                           data-content="{{ categorie.description }}">
+                            {{ categorie.name }}
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+
+            {# affichage des actus #}
+            <div class="row liste-actus">
+                {% for actu in tabInfo %}
+                    {% if loop.index0 < limit %}
+                        <div class="col-xs-12 col-md-6 col-lg-4 col-xl-3">
+                            <div class="card card-actu-accueil text-white my-1 bg-info">
+                                {% if actu.media|length == 1 %}
+                                    <img class="card-img-top" src="{{ asset('assets/mini-') }}{{ actu.media.0.url }}" alt="{{ actu.media.0.title }}">
+                                {% elseif actu.media|length > 1 %}
+                                    <div id="carousel{{ actu.infoId }}" class="card-img-top carousel slide" data-ride="carousel">
+                                        <div class="carousel-inner">
+                                            {% for media in actu.media %}
+                                                <div class="carousel-item {% if loop.first %}active{% endif %}">
+                                                    <img class="d-block w-100" src="{{ asset('assets/mini-') }}{{ media.url }}" alt="{{ media.title }}">
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    <img class="card-img-top" src="{{ asset('assets/img/actus-default.jpg') }}" alt="Pas d'image pour cette actualité">
+                                {% endif %}
+                                <div class="card-body">
+                                    <p class="card-text d-flex justify-content-between">
+                                        <span><i class="far fa-calendar-alt mr-1"></i>{{ actu.infoPublicationDate|date("d/m/Y") }}</span>
+                                        <span><i class="far fa-clock mr-1"></i><span>{{ actu.infoPublicationDate|date("G:i") }}</span>
+                                    </p>
+                                    <h6 class="card-title d-block text-truncate">{{ actu.infoTitle }}</h6>
+                                    <p class="card-text d-flex justify-content-between">
+                                        <a href="{{ path('info-public', {'id': actu.infoId}) }}" class="btn btn-primary">Détails</a>
+                                        <a class="text-white d-block text-truncate" href="{{ path('member-public', {'id': actu.memberId}) }}">
+                                            <span><i class="far fa-user mr-1"></i>{{ actu.memberUsername }}</span>
+                                        </a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <div class="row {% if tabInfo|length <= limit %}d-none{% endif %}">
+                <div class="col-12">
+                    <button type="button" class="btn btn-success btn-lg btn-block my-3" id="btn-plus">Plus de résultats ...</button>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="alert alert-info mx-auto my-5 p-5" role="alert">
+            <h1>Aucune actualité n'est présente...</h1>
+        </div>
+    {% endif %}
+
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        afficherActus = function(actus){
+            let actusHtml = '';
+            let nbActus = 1;
+            for (let numActu in actus){
+                if (nbActus++ <= limit){
+                    actusHtml += '<div class="col-xs-12 col-md-6 col-lg-4 col-xl-3">';
+                    actusHtml += '<div class="card card-actu-accueil text-white my-1 bg-info">';
+                    if (actus[numActu].media.length == 0){
+                        actusHtml += '<img class="card-img-top" src="assets/img/actus-default.jpg" alt="Pas d\'image pour cette actualité">';
+                    }
+                    else if (actus[numActu].media.length == 1){
+                        actusHtml += '<img class="card-img-top" src="assets/mini-' + actus[numActu].media[0].url + '" alt="' + actus[numActu].media[0].title + '">';
+                    }
+                    else {
+                        actusHtml += '<div id="carousel' + actus[numActu].infoId + '" class="card-img-top carousel slide" data-ride="carousel">'
+                            + '<div class="carousel-inner">';
+                        for (let i = 0; i<actus[numActu].media.length; i++){
+                            actusHtml += '<div class="carousel-item' + (i==0?' active':'') + '">'
+                                + '<img class="d-block w-100" src="assets/mini-' + actus[numActu].media[i].url + '" alt="' + actus[numActu].media[i].title + '">'
+                                + '</div>';
+                        }
+                        actusHtml += '</div>'
+                            + '</div>';
+                    }
+                    let dateEtHeure = new Date(actus[numActu].infoPublicationDate);
+                    let routeActu = "{{ path('info-public', {'id': '0'}) }}";
+                    let routeMembre = "{{ path('member-public', {'id': 0}) }}";
+                    actusHtml += '<div class="card-body">'
+                        + '<p class="card-text d-flex justify-content-between">'
+                        + '<span><i class="far fa-calendar-alt mr-1"></i>' + dateEtHeure.toLocaleDateString() + '</span>'
+                        + '<span><i class="far fa-clock mr-1"></i>' + dateEtHeure.getHours() + ':' + dateEtHeure.getMinutes() + '</span>'
+                        + '</p>'
+                        + '<h6 class="card-title d-block text-truncate">' + actus[numActu].infoTitle + '</h6>'
+                        + '<p class="card-text d-flex justify-content-between">'
+                        + '<a href="' + routeActu + actus[numActu].infoId + '" class="btn btn-primary">Détails</a>'
+                        + '<a class="text-white d-block text-truncate" href="' + routeMembre + actus[numActu].memberId + '">'
+                        + '<span><i class="far fa-user mr-1"></i>' + actus[numActu].memberUsername + '</span>'
+                        + '</a>'
+                        + '</p>'
+                        + '</div>'
+                        + '</div>'
+                        + '</div>'
+                    ;
+                }
+            }
+            if (nbActus <= limit){document.querySelector("#btn-plus").style.display="none";}
+
+            return actusHtml;
+        }
+
+        afficherPlusActus = function(retourXhr){
+            let actus = JSON.parse(retourXhr);
+            let plusActus = afficherActus(actus);
+            document.querySelector(".liste-actus").insertAdjacentHTML("beforeend", plusActus);
+        }
+
+        document.querySelector("#btn-plus").addEventListener("click", function(evenement){
+            evenement.preventDefault();
+            offset = offset +12;
+            let donneesFormulaire = new FormData();
+            donneesFormulaire.append("limit", limit);
+            donneesFormulaire.append("offset", offset);
+            requeteXHR("{{ path("home") }}", donneesFormulaire, afficherPlusActus);
+        });
+
+        limit = 12;
+        offset = 0;
+
+        $(function () {
+            $('#datetimepicker7').datetimepicker({
+                format: 'L'
+            });
+            $('#datetimepicker8').datetimepicker({
+                useCurrent: false,
+                format: 'L'
+            });
+            $("#datetimepicker7").on("change.datetimepicker", function (e) {
+                $('#datetimepicker8').datetimepicker('minDate', e.date);
+            });
+            $("#datetimepicker8").on("change.datetimepicker", function (e) {
+                $('#datetimepicker7').datetimepicker('maxDate', e.date);
+            });
+        });
+    </script>
+{% endblock %}

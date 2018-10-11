@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PrivateGroup index{% endblock %}
+
+{% block body %}
+    <h1 class="Admin">Groupe Privé</h1>
+
+    <table class="table Admin">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for private_group in private_groups %}
+            <tr>
+                <td>{{ private_group.id }}</td>
+                <td>{{ private_group.name }}</td>
+                <td>{{ private_group.description }}</td>
+                <td>
+                    <a href="{{ path('private_group_show', {'id': private_group.id}) }}"><button class="btn" title="Consulter"><i class="fa fa-eye"></i></button></a>
+                    <a href="{{ path('private_group_edit', {'id': private_group.id}) }}"><button class="btn" title="Editer"><i class="fa fa-pen"></i></button></a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">Aucun enregistrement trouvé</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+<div class="Admin centre margin">
+    <a href="{{ path('private_group_new') }}"><button class="btn" title="Ajouter"><i class="fa fa-plus"></i></button></a>
+    </div>
+{% endblock %}

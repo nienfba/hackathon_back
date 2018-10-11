@@ -1,0 +1,310 @@
+{% extends 'base-public.html.twig' %}
+
+{% block main %}
+    <div class="container public-info" id="app">
+        <div class="row mt80 info">
+            <div class="col-sm-6">
+                {% if info.media|length == 1 %}
+                    <img class="img-fluid" src="{{ asset('assets/hd-' ~ info.media[0].url) }}" alt="{{ info.media.0.title }}">
+                {% elseif info.media|length > 1 %}
+                    <div id="carousel{{ info.id }}" class="card-img-top carousel slide" data-ride="carousel">
+                        <div class="carousel-inner">
+                            {% for media in info.media %}
+                            <div class="carousel-item {% if loop.first %}active{% endif %}">
+                                <img class="d-block w-100" src="{{ asset('assets/hd-' ~ media.url) }}" alt="{{ media.title }}">
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% else %}
+                    <img class="img-fluid image" src="{{ asset('assets/img/actus-default.jpg') }}" alt="Pas d'image pour cette actualité">
+                {% endif %}
+            </div>
+            <div class="col-sm-6">
+                <div class="box-map">
+                    <div class="map image" id="map"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row my-3 info">
+            <div class="col-sm-6">
+
+                <h3><a href="{{ url('info-public', {'id' : info.id }) }}"><i class="fa fa-{{ info.icon }}"></i> {{ info.title }}</a></h3>
+                <div>publié par <a href="{{ url('member-public', {'id' : info.member.id }) }}">{{ info.member.username }}</a></div>
+                <div>le {{ info.publicationDate|date('d/m/Y à H:i')}}</div>
+                <hr />
+                <p>{{ info.description }}</p>
+            </div>
+
+{# formulaire pour envoyer un commentaire #}
+            <div class="col-sm-6">
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    <form action="" method="POST" id="form-commentaire" class="info">
+                        <div class="form-group">
+                            <input type="hidden" name="formCommentaire" value="true" />
+                            <textarea class="form-control" id="commentaire" name="commentaire" rows="3" placeholder="Laisser un commentaire..."></textarea>
+                        </div>
+                        <div class="Admin"><button type="submit" class="btn l100" id="btn-submit-commentaire">Envoyer votre commentaire</button></div>
+                    </form>
+                {% else %}
+                    <div class="card card-info-commentaire text-white my-1 bg-info">
+                        <div class="card-body d-flex justify-content-center align-items-center">
+                            <p class="card-text text-center">
+                                <a class="text-white" href="{{ path('login') }}">
+                                    Connectez-vous pour laisser un message
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                {% endif %}
+
+{# formulaire pour signaler une information #}
+                <div class="dropdown info">
+                    <button class="btn btn-danger dropdown-toggle btn-sm btn-block mt-2" type="button" id="dropdownButtonSignalerInfo" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Signaler l'information
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownButtonSignalerInfo">
+                        <form class="px-4 py-3 info" action="{{ path('signaler') }}" method="POST" id="form-signaler-info">
+                            <div class="form-group">
+                                <input type="hidden" name="formSignaler" value="info">
+                                <input type="hidden" name="idInfoSignaler" value="{{ info.id }}">
+                                <textarea class="form-control" name="contentSignaler" rows="3" placeholder="Indiquez la raison du signalement de cette information..."></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-danger l100" id="btn-submit-signaler-info">Signaler l'information</button>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+{# affichage des commentaires #}
+        <div class="row liste-messages info">
+            {% if listeMessage|length == 0 %}
+                <div class="col-sm-12">
+                    <div class="card carte-info">
+                        <div class="card-body">
+                            <p class="card-text">Aucun commentaire concernant cette information.</p>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                {% for message in listeMessage %}
+                    <div class="col-sm-12">
+                        <div class="card carte-info">
+                            <div class="card-body">
+                                <div class="card-text d-flex  flex-wrap justify-content-between border-bottom">
+                                    <div class="col-xs-12 col-sm-3"><i class="far fa-calendar-alt mr-1"></i>{{ message.publication_date|date("d/m/Y") }}</div>
+                                    <div class="col-xs-12 col-sm-3"><i class="far fa-clock mr-1"></i>{{ message.publication_date|date("G:i") }}</div>
+                                    <div class="col-xs-12 col-sm-3"><a class="text-white d-block text-truncate mr-3" href="{{ path('member-public', {'id': message.author_id}) }}">
+                                        <i class="far fa-user mr-1"></i>{{ message.username }}
+                                    </a></div>
+{# formulaire pour signaler un message #}
+                                    <div class="col-xs-12 col-sm-3">
+                                        <div class="dropdown">
+                                            <button class="btn btn-danger dropdown-toggle l100" type="button" id="dropdownButtonSignalerMessage" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="fas fa-exclamation-triangle"></i>
+                                            </button>
+                                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownButtonSignalerMessage">
+                                                <form class="px-4 py-3 info" action="{{ path('signaler') }}" method="POST" id="form-signaler-message">
+                                                    <div class="form-group">
+                                                        <input type="hidden" name="formSignaler" value="message">
+                                                        <input type="hidden" name="idMessageSignaler" value="{{ message.id }}">
+                                                        <input type="hidden" name="idInfoSignaler" value="{{ info.id }}">
+                                                        <textarea class="form-control" name="contentSignaler" rows="3" placeholder="Indiquez la raison du signalement de ce message..."></textarea>
+                                                    </div>
+                                                    <button type="submit" class="btn btn-danger btn-sm btn-block" id="btn-submit-signaler-message">Signaler le message</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="card-text">{{ message.content }}</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+        <div class="row {% if finMessage %}d-none{% endif %}">
+            <div class="col-12  info">
+                <button type="button" class="btn btn-success btn-lg btn-block my-3" id="btn-tous-messages">Tous les commentaires ...</button>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css" />
+
+<style>
+    
+.public-info img {
+    height: 50vh;
+    object-fit:cover;
+}
+
+.box-map {
+    min-height:50vh;
+}
+.map {
+    min-height: 50vh;
+    width: 100%;
+    z-index: 999;
+}
+</style>
+{% endblock %}
+
+
+{% block javascripts %}
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.min.js'></script>
+    <script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"></script>
+    <script>
+var infoLatitude     = '{{ info.latitude ?? '' }}';
+var infoLongitude    = '{{ info.longitude ?? '' }}';
+
+var tabFeatures = 
+[{
+    id: 0,
+    name: 'Restaurants',
+    active: true,
+    features: [
+    {% if info.latitude and info.longitude %}
+{ id: "{{ info.id }}", name: "{{ info.title }}", type: "marker", lat: {{ info.latitude }}, lon: {{ info.longitude }}, isOut: false, username: "{{ info.member.username }}", publicationDate: "{{ info.publicationDate|date('H:i - d/m/Y') }}", description: "{{ info.description }}" },
+    {% endif %}
+        ],
+}];
+
+
+var myApp = new Vue({
+    delimiters: ['${', '}'],
+    el: '#app',
+    data: {
+        map: null,
+        tileLayer: null,
+        myMarkerFeatures: [],
+        markerSelect: null,
+        layers: tabFeatures,
+        nbFeatureVisible:0,
+    },
+    mounted() {
+        this.initMap();
+        this.initLayers();
+    },
+    computed: {
+    },
+    methods: {
+
+        initLayers() {
+            this.layers.forEach((layer) => {
+                var markerFeatures = layer.features.filter(feature => feature.type === 'marker');
+                var myIcon = L.icon({
+                    iconUrl: '<i class="fa fa-{{ info.icon }}"></i>',
+                    iconSize: [38, 95]
+                });
+                markerFeatures.forEach((feature) => {
+                    feature.leafletObject = L.marker([feature.lat, feature.lon,{icon: myIcon}]) //  feature.coords)
+                        .bindPopup(feature.name)
+                        .addTo(this.map);   // MONTRER SUR LA CARTE
+                    // POUR REVENIR DU MARKER VERS LE FEATURE
+                    feature.leafletObject.feature = feature;
+                });
+                // LH HACK
+                if (markerFeatures.length > 0)
+                    this.myMarkerFeatures = markerFeatures;
+            });
+        },
+        initMap() {
+            this.map = L.map('map').setView([infoLatitude, infoLongitude], 10);
+            this.tileLayer = L.tileLayer(
+                'https://cartodb-basemaps-{s}.global.ssl.fastly.net/rastertiles/voyager/{z}/{x}/{y}.png', {
+                    maxZoom: 18,
+                    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, &copy; <a href="https://carto.com/attribution">CARTO</a>',
+                }
+            );
+
+            this.tileLayer.addTo(this.map);
+        },
+    },
+});
+
+    afficherMessages = function(retourXhr){
+        let listeMessage = retourXhr.listeMessage;
+        let messageHtml = '';
+        if (listeMessage.length == 0){
+            messageHtml += '<div class="col-sm-12">'
+                        + '<div class="card card-info-message text-white my-1 bg-info">'
+                        + '<div class="card-body">'
+                        + '<p class="card-text">Aucun commentaire concernant cette information.</p>'
+                        + '</div>'
+                        + '</div>'
+                        + '</div>';
+        }else{
+            for (let numMessage in listeMessage){
+                let dateEtHeure = new Date(listeMessage[numMessage].publication_date);
+                let routeMembre = "{{ path('member-public', {'id': 0}) }}";
+                messageHtml += '<div class="col-sm-12">'
+                            + '<div class="card card-info-message text-white my-1 bg-info">'
+                            + '<div class="card-body">'
+                            + '<div class="card-text d-flex border-bottom">'
+                            + '<p class="mr-3"><i class="far fa-calendar-alt mr-1"></i>' + dateEtHeure.toLocaleDateString() + '</p>'
+                            + '<p class="mr-3"><i class="far fa-clock mr-1"></i>' + dateEtHeure.getHours() + ':' + dateEtHeure.getMinutes() + '</p>'
+                            + '<a class="text-white d-block text-truncate mr-3" href="' + routeMembre + listeMessage[numMessage].author_id + '">'
+                            + '<i class="far fa-user mr-1"></i>' + listeMessage[numMessage].username
+                            + '</a>'
+                            + '</div>'
+                            + '<p class="card-text">' + listeMessage[numMessage].content + '</p>'
+                            + '</div>'
+                            + '</div>'
+                            + '</div>';
+            }
+            if (retourXhr.finMessage){document.querySelector("#btn-tous-messages").style.display="none";}
+        }
+
+        return messageHtml;
+    }
+
+    afficherTousMessages = function(retourXhr){
+        let tousMessages = afficherMessages(JSON.parse(retourXhr));
+        document.querySelector(".liste-messages").innerHTML = tousMessages;
+    }
+
+    document.querySelector("#btn-tous-messages").addEventListener("click", function(evenement){
+        evenement.preventDefault();
+        offset = offset + limit;
+        let donneesFormulaire = new FormData();
+        donneesFormulaire.append("limit", 0);
+        donneesFormulaire.append("offset", offset);
+        requeteXHR("{{ path('info-public', {'id': info.id}) }}", donneesFormulaire, afficherTousMessages);
+    });
+
+    limit = 10;
+    offset = 0;
+
+
+    retourSignalement = function(retourXhr){
+        let retourEnvoiSignalement = JSON.parse(retourXhr);
+        if (retourEnvoiSignalement.signaler){
+            window.alert("Votre signalement a bien été entregistré.\nIl va être traité par un modérateur dans les plus brefs délais.");
+        }else{
+            window.alert("Erreur lors de l'envoi de votre signalement.");
+        }
+    }
+    
+    document.querySelector("#form-signaler-info").addEventListener("submit", function(evenement){
+        evenement.preventDefault();
+        let donneesFormulaire = new FormData(document.querySelector("#form-signaler-info"));
+        requeteXHR("{{ path('signaler') }}", donneesFormulaire, retourSignalement);
+    });
+
+    document.querySelector("#form-signaler-message").addEventListener("submit", function(evenement){
+        evenement.preventDefault();
+        let donneesFormulaire = new FormData(document.querySelector("#form-signaler-message"));
+        requeteXHR("{{ path('signaler') }}", donneesFormulaire, retourSignalement);
+    });
+
+    </script>
+
+{% endblock %}

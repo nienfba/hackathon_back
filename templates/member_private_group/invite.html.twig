@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Member index{% endblock %}
+
+{% block body %}
+    <h1>Member index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Group</th>
+                <th>Group Admin</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for member in members %}
+            <tr>
+                <td>{{ member.id }}</td>
+                <td>{{ member.username }}</td>
+                <td>{{ member.email }}</td>
+                <td>{{ member.role }}</td>
+                <div><span class="mr-3">Groupes :</span>
+                {% if privateGroups is not empty %}
+                    {% for privateGroup in privateGroups %}
+                        <span class="mr-3">{{ privateGroup.name }}</span>
+                        <span>({{ privateGroup.role }})</span>
+                    {% endfor %}
+                {% else %}
+                    <span>No group register</span>
+                {% endif %}
+                {# <td>
+                    <form action="{{ path('member_private_group_invite') }}" method="post">
+                        <input type="hidden" name="memberId" value="{{ member.id }}">
+                        <input type="hidden" name="privateGroupId" value="{{ privateGroupId.id }}">
+                        <input type="checkbox" id="admin{{ member.id }}" name="privateGroupAdmin" value="1"><label for="admin{{ member.id }}">Admin</label>
+                        <input class="btn btn-primary" type="submit" value="Inviter">
+                    </form>
+                </td> #}
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

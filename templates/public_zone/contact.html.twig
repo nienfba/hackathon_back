@@ -1,0 +1,20 @@
+
+{% extends 'base-public.html.twig' %}
+
+{% block main %}
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h1 class="Admin">Formulaire de contact</h1>
+            <p>N’hésitez pas à nous laisser un message pour nous demander un avis, partager une expérience ou tout simplement nous dire bonjour..! </p>
+            <div class="Admin margin">
+            {{form_start(form)}}                 
+                {{form_row(form.name, {'label': 'Nom', 'attr':{'placeholder':'Votre nom...'}})}}
+                {{form_row(form.email, {'label': 'Adresse email', 'attr':{'placeholder':'Vore adresse email...'}})}}
+                {{form_row(form.subject, {'label': 'Sujet', 'attr':{'placeholder':'Sujet de votre demande...'}})}}
+                {{form_row(form.message, {'label': 'Message', 'rows': '5', 'attr':{'placeholder':'Votre message...'}, 'attr':{'rows':'5'}})}}             
+                <button type="submit" class="btn btn-success">Envoyer !</button>
+            {{form_end(form)}}
+            </div>
+        </div>       
+    </div>
+{% endblock %}

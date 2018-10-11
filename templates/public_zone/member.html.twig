@@ -1,0 +1,95 @@
+{% extends 'base-public.html.twig' %}
+
+{% block main %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-2">
+                {% if not member.url %}
+                    <img src="{{ asset ('assets/img/user.jpg') }}" height="100" width="100"/>
+                {% else %}
+                    <img src="{{ asset ('assets/mini-'~member.url) }}" height="100" width="100"/>
+                {% endif %}
+            </div>
+            <div class="col-lg-10">
+                <div class="row">
+                    <h4>membre: {{ member.username }}</h4>
+                </div>
+                <div class="row">
+                    <h4>Date d'inscription le : {{ member.registrationDate|date("d/m/Y") }}</h4>
+                </div>
+                <div class="row">
+                    <h5>Description : {{ member.description }}</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            {{ form_start(form) }}
+            <div class="row">
+                <div class="col-lg-6">
+                    {{ form_row(form.content) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    {{ form_row(form.file) }}
+                </div>
+                <div class="col-lg-6">
+                    <label for="filename">Votre fichier :</label>
+                    <input class="" id="filename" type="text" />
+                </div>
+            </div>
+
+            <button type="submit" id="submit" class="btn btn-success">Envoyer !</button> {{ messageRetour }}
+            {{ form_end(form) }}
+        {% else %}
+            <h4>Veuillez vous connecter ou vous inscrire pour laisser un message</h4>
+        {% endif %}
+    </div>
+    
+    <div class="container">
+        <h3>{{ member.infos|length }} infos publiées</h3>
+        <div class="row">
+            <ul>
+            {% for info in member.infos|reverse %}
+                <li class="row" title="{{ info.id }}">
+                    <div class="col-sm-3">
+                        {% if info.media|length == 0 %}
+                            <img class="img-fluid" src="{{ asset('assets/img/actus-default.jpg') }}">
+                        {% else %}
+                            <img class="img-fluid" src="{{ asset('assets/' ~ info.media[0].url) }}">
+                        {% endif %}
+                    </div>
+                    <div class="col-sm-9">
+                        <a href="{{ url('info-public', {'id' : info.id }) }}">{{ info.title }}</a> - info publiée le {{ info.publicationDate|date('d/m/Y à H:i')}}
+                        <p>{{ info.description }}</p>
+                    </div>
+                </li>
+            {% endfor %}
+            </ul>
+        </div>        
+    </div>
+    
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+
+        var element = document.getElementById('message_file');
+
+
+        element.onchange = function() {
+
+            var filename = ($(":input[type=file]").val()).substr(12);
+            document.getElementById("filename").value=filename;
+
+        };
+
+
+
+    </script>
+
+{% endblock %}

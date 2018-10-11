@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Message{% endblock %}
+
+{% block body %}
+    <h1 class="Admin">Création Message</h1>
+<div class="Admin margin">
+    {{ include('message/_form.html.twig') }}
+</div>
+<div class="Admin centre margin">
+    <a href="{{ path('message_index') }}"><button class="btn" title="Retour à la liste"><i class="fas fa-reply"></i></button></a>
+</div>
+{% endblock %}

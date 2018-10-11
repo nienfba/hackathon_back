@@ -1,0 +1,32 @@
+{% extends 'base-membre.html.twig' %}
+{# {% extends 'base-public.html.twig' %} #}
+
+{% block main %}
+<h3>Modifier votre profil</h3>
+
+    <div class="jumbotron jumbotron-fluid">      
+        <div class="container">   
+            <h1 class="display-4">Détails du compte</h1>
+            <hr class="my-3">
+            {{ form_start(form) }}
+                {{form_row(form.username, {'label': 'Nom d\'utilisateur', 'attr':{'placeholder':'Nom d\'utilisateur...'}})}}
+                {{form_row(form.password, {'label': 'Mot de passe', 'attr':{'placeholder':'Mot de passe 4 caractéres minimum...'}})}} 
+                {{form_row(form.confirm_password, {'label': 'Confirmation du mot de passe', 'attr':{'placeholder':'Confirmer votre mot de passe...'}})}}
+                {# {{form_row(form.confirm_password, {'label': 'Confirmation du mot de passe', 'attr':{'placeholder':'Confirmer votre mot de passe...'}})}} #}
+                {{form_row(form.email, {'label': 'Adresse email', 'required': 'required','type': 'email', 'attr':{'placeholder':'Adresse email...'}})}}
+
+                {{form_row(form.description, {'label': 'Description', 'attr':{'placeholder':'Description...'}})}}
+                {# {{form_row(form.url, {'label': 'Url', 'attr':{'placeholder':'Url...'}})}}  #}
+                {{form_row(form.file, {'label': 'Photo du profil', 'attr':{'placeholder':'Ma photo du profil...'}})}}
+                <hr class="my-5">  
+                {{form_row(form.extraCss, {'label': 'extra CSS', 'attr':{'placeholder':'code qui sera inséré à la fin de la balise head'}})}}
+                {{form_row(form.extraJs, {'label': 'extra JS', 'attr':{'placeholder':'code qui sera inséré à la fin de la balise body'}})}}
+                <hr class="my-5">  
+         
+                <button type="submit" class="btn btn-success">Modifier</button>
+            {{form_end(form)}}
+        </div>   
+    </div>
+
+
+{% endblock %}

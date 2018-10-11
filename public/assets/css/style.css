@@ -1,0 +1,364 @@
+/* Ajout de Daniel pour Admin single view et members*/
+
+footer, footer section{
+    margin:0;
+    padding:0;
+    color: #fff !important;
+    background-color: #999 !important;
+}
+footer a, footer a:link, footer a:active, footer a:visited{
+    color:#fff !important;
+    text-decoration: none;
+}
+
+footer img{
+    margin:20px;
+}
+
+footer h3{
+    margin:10px;
+    font-weight:500;
+}
+
+footer p{
+    text-align:justify;
+}
+
+div.bl25{;
+    display:inline-block;
+    width:20%;
+    text-align:left;
+    padding-left:10px;
+}
+
+div.bl25 div.dropdown{
+    padding:0 10px 5px 0;
+    text-align:right;
+}
+
+.card, #accordion{
+    border-radius: 0px;
+}
+
+#accordion .form-check-label{
+    border-radius:15px;
+    margin-bottom:5px;
+    background-color: #2b3376;
+    border:none;
+}
+
+.mt80{    
+    margin-top:40px;
+}
+
+.info textarea, .info button{
+    border-radius:15px !important;
+}
+
+.carte-info, 
+.carte-info a,.carte-info a:link, .carte-info a:active, .carte-info a:visited
+{
+    color: #000 !important;
+    border-radius:10px;
+    background-color: #fff;
+    margin: 5px 0 5px 0;
+}
+
+.info h3 a{
+    display:block;
+    color: inherit;
+    text-decoration: none;
+    padding:0;
+    font-weight:600;
+    text-align:left;
+    text-transform: uppercase;
+    margin-bottom:20px;
+}
+
+.info div div a{
+    color: #c8102e;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-weight:600;
+}
+
+.image{
+    position:relative;
+    border:1px solid #999999;
+    /*
+    box-shadow: 1px 1px 5px #666666;
+    */
+    border-radius:15px;
+}
+
+.navbar{width:100%;}
+.nav-menu, .navbar-nav, .lien-nav{
+    background-color:#fff !important;
+    color: #c8102e !important;
+}
+.nav-menu{
+    border-bottom: 1px solid #ddd;
+}
+ .navbar-nav:hover, 
+ .lien-nav:hover{
+    background-color:#000 !important;
+    color: #fff !important;
+    padding-right:10px;
+}
+
+.login form{
+    background-color:#ccc;
+}
+
+.login input[type=text], 
+.login input[type=password]{
+    border-radius:20px;
+}
+
+.jumbotron{
+    background-color: #fff;
+}
+
+.centre {
+    text-align:center;
+}
+
+.droite{
+    text-align:right;
+}
+
+.gauche{
+    text-align:left;
+}
+
+.padding{
+    padding:10px;
+}
+
+.margin{
+    margin:10px;
+}
+
+.bg-secondary{
+    background-color:#222 !important;
+    text-align:center;
+}
+
+a.admin-btn, a:active.admin-btn, a:visited.admin-btn{
+    border-radius: 25px;
+    color: #fff !important;
+    background-color: #2b3376 !important;
+}
+
+a.admin-btn:hover{
+    color:#2b3376 !important;
+    border:1px solid #2b3376;
+    background-color: #ffffff !important;
+}
+
+h1.InstAdmin, h1.Admin {
+    text-align:center;
+    text-transform: uppercase;
+    font-weight:700;
+}
+
+div.InstAdmin{
+    display:block;
+}
+
+div.InstAdminImg{
+    display:inline-block;
+    width:10vw;
+    height:10vw;
+    margin-bottom:10px;
+}
+
+div.Insta{
+    display:block;
+    width:50%;
+    height:20%;
+    overflow:hidden;
+    margin-left:25%;
+    overflow:hidden;
+}
+
+img.Insta{
+    object-fit: cover; 
+    object-position: top center;
+    width:50%;
+    height:20vw;
+    margin-left: 25%;
+    margin-right: 25%;
+}
+
+.InstAdmin img{  
+    object-fit: cover;  
+    width:100%;
+    height:100%;
+}
+.InstAdmin button.btn-danger, .InstAdmin button.btn,
+.Admin button.btn-danger, .Admin button.btn, .InstAdmin button.btn, a.btn{
+    margin:2px;
+    padding:10px;
+    cursor: pointer;
+    border:none;
+    border-radius:20px;
+    text-align:center;
+    
+}
+.l100{
+    width:100%;
+    margin: 0 0 5px 0;
+}
+.InstAdmin button.btn, .btn.btn-primary, .Admin .btn {
+    color: #fff;
+    background-color: #2b3376 ;
+}
+
+.btn.btn-danger{
+    color: #fff;
+    background-color:#c8102e;
+}
+
+.InstAdmin button.btn-danger:hover, .InstAdmin button.btn:hover,
+.Admin button.btn-danger:hover, .Admin button.btn:hover{
+    text-align:center;
+    background-color:#000;
+    color:#fff;
+}
+
+.btn, .btn-danger{
+    text-align:center;
+    min-width:80px;
+}
+
+.InstAdmin label, .Admin label{
+    padding:5px 10px 5px 10px;
+    min-width:250px;
+    color : #fff;
+    font-weight:500;
+    background-color: rgba(43,51,118,1);
+    background-color:#000;
+    border-radius:25px;
+}
+.InstAdmin input[type=text],
+.InstAdmin textarea,
+.InstAdmin input[type=number],
+.Admin input[type=text],
+.Admin textarea,
+.Admin input[type=number],
+.Admin select,
+.Admin input[type=password], {
+    border-radius:15px;
+}
+.InstAdmin tr:hover,
+.Admin tr:hover{
+    background-color: #fac100;
+}
+.InstAdmin th,
+.Admin th{
+    color: #fff;
+    background-color: #000;  
+    border: 1px solid #fff;
+    border-top: 1px solid #000;   
+}
+.InstAdmin td,
+.Admin td{
+    border-top: 1px solid #2b3376;   
+    border-bottom: 1px solid #2b3376;   
+}
+
+/* Fin de :Ajout de Daniel pour la page Admin */
+
+footer {
+    /* height: 30rem; */
+    margin-top: 1rem;
+    /* padding-top: 3rem; */
+}
+footer>section {
+    padding-top: 3rem;
+    background-color: #fac100;
+}
+.decalage-header{
+    height: 4rem;
+}
+.nav-menu {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    background-color: #c8102e;
+}
+.nav-menu img {
+    width: 50%;
+}
+.card-actu-accueil img {
+    height: 12rem;
+    object-fit: cover;
+}
+.card-actu-accueil .card-body {
+    height: 9rem;
+}
+.card-info-commentaire .card-body {
+    height: 6rem;
+}
+.card-info-message .card-body {
+    padding: 0.5rem
+}
+.card-info-message p {
+    margin-bottom: 0.5rem;
+}
+/* @media (min-width: 576px) {
+    .nav-menu, .decalage-header{
+        min-height: 4rem;
+    }
+    .nav-menu img{
+        width: initial;
+    }
+}
+@media (min-width: 1200px) {
+    .nav-menu, .decalage-header{
+        min-height: 8rem;
+    }
+} */
+.main-section{
+    padding-left: 0;
+    padding-right: 0;
+}
+.titre-section{
+    text-align: center;
+    margin: 1rem;
+    font-weight: bold;
+}
+.btn-nav{
+    border-color: #ffffff;
+    border-radius: 2rem;
+    border-width: 0.2rem;
+}
+.lien-nav{
+    text-align: right;
+}
+.btn-nav, .btn-nav:visited, .lien-nav, .lien-nav:visited{
+    background-color: #c8102e;
+    color: #ffffff;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-decoration: none;
+}
+.btn-nav:hover, .btn-nav:focus, .btn-nav:active, .lien-nav:hover, .lien-nav:focus, .lien-nav:active{
+    background-color: #ffffff;
+    color: #c8102e;
+    text-decoration: none;
+}
+.btn-admin, .btn-admin:visited{
+    background-color: #2b3376;
+    color: #ffffff;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+.btn-admin:hover, .btn-admin:focus, .btn-admin:active{
+    background-color: #ffffff;
+    color: #2b3376;
+}
+
+ul {
+    list-style: none;
+}

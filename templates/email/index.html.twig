@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Email index{% endblock %}
+
+{% block body %}
+    <h1>Email index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>EmailFrom</th>
+                <th>EmailTo</th>
+                <th>EmailSubject</th>
+                <th>EmailContent</th>
+                <th>EmailType</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for email in emails %}
+            <tr>
+                <td>{{ email.id }}</td>
+                <td>{{ email.emailFrom }}</td>
+                <td>{{ email.emailTo ? email.emailTo|join(', ') : '' }}</td>
+                <td>{{ email.emailSubject }}</td>
+                <td>{{ email.emailContent }}</td>
+                <td>{{ email.emailType }}</td>
+                <td>
+                    <a href="{{ path('email_show', {'id': email.id}) }}"><button class="btn" title="Consulter"><i class="fa fa-eye"></i></button></a>
+                    <a href="{{ path('email_edit', {'id': email.id}) }}"><button class="btn" title="Editer"><i class="fa fa-pen"></i></button></a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">Aucun enregistrement trouvé</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('email_new') }}"><button class="btn" title="Ajouter"><i class="fa fa-plus"></i></button></a>
+{% endblock %}

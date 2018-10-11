@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Informations{% endblock %}
+
+{% block body %}
+    <h1 class="Admin">Informations index</h1>
+    <div class="Admin centre margin">
+    <a href="{{ path('info_new') }}">
+</a>
+    </div>
+    <table class="table Admin">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Latitude</th>
+                <th>Longitude</th>
+                <th>PublicationDate</th>
+                <th>EndDate</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for info in infos %}
+            <tr>
+                <td>{{ info.id }}</td>
+                <td>{{ info.latitude }}</td>
+                <td>{{ info.longitude }}</td>
+                <td>{{ info.publicationDate ? info.publicationDate|date('Y-m-d') : '' }}</td>
+                <td>{{ info.endDate ? info.endDate|date('Y-m-d') : '' }}</td>
+                <td>{{ info.title }}</td>
+                <td>{{ info.description }}</td>
+                <td>
+                    <a href="{{ path('info_show', {'id': info.id}) }}"><button class="btn" title="Consulter"><i class="fa fa-eye"></i></button></a>
+                    <a href="{{ path('info_edit', {'id': info.id}) }}"><button class="btn" title="Editer"><i class="fa fa-pen"></i></button></a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <div class="Admin centre">
+    <a href="{{ path('info_new') }}"><button class="btn" title="Ajouter"><i class="fa fa-plus"></i></button></a>
+    </div>
+{% endblock %}

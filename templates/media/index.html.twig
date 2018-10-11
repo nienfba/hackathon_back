@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Media{% endblock %}
+
+{% block body %}
+    <h1 class="Admin">Media</h1>
+
+    <table class="table Admin">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Url</th>
+                <th>Type</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for medium in media %}
+            <tr>
+                <td>{{ medium.id }}</td>
+                <td>{{ medium.title }}</td>
+                <td>{{ medium.description }}</td>
+                <td>{{ medium.url }}</td>
+                <td>{{ medium.type }}</td>
+                <td>
+                    <a href="{{ path('media_show', {'id': medium.id}) }}"><button class="btn" title="Consulter"><i class="fa fa-eye"></i></button></a>
+                    <a href="{{ path('media_edit', {'id': medium.id}) }}"><button class="btn" title="Editer"><i class="fa fa-pen"></i></button></a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">Aucun enregistrement trouvé</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+<div class="Admin centre margin">
+    <a href="{{ path('media_new') }}"><button class="btn" title="Ajouter"><i class="fa fa-plus"></i></button></a>
+</div>
+{% endblock %}

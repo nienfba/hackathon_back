@@ -1,0 +1,33 @@
+# config/packages/security.yaml
+security:
+    access_control:
+        - { path: ^/admin/, roles: ROLE_ADMIN }
+        - { path: ^/member/, roles: [ROLE_MEMBER, ROLE_ADMIN] }
+
+    providers:
+        mon_login:
+            entity:
+                class: App\Entity\Member
+                property: username
+    firewalls:
+        main:
+            security: true
+            pattern: ^/
+            anonymous: ~
+            provider: mon_login
+            form_login:
+                login_path: login
+                check_path: login
+                use_referer: true
+                csrf_token_generator: security.csrf.token_manager
+                success_handler: App\Login\SuccessHandler 
+            logout:
+                path:   logout
+                target: login            
+            access_denied_handler: App\Login\SuccessHandler   
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+    encoders:
+        App\Entity\Member:
+            algorithm: bcrypt

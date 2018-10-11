@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<h1 class="titre-section">Espace Admin</h1>
+
+<div class="jumbotron jumbotron-fluid">      
+    <div class="container">   
+        <h1 class="display-4" style="text-align: center;">Tableau de bord</h1>
+        <hr class="my-5">
+        <div class="row container-fluid">
+            <div class="card text-white bg-secondary mb-4" style="min-width: 16rem;margin:0 auto">
+                <h2 class="card-header">Membres</h2>
+                <div class="card-body">
+                    <h6 class="card-title">Nombre de membres inscrits :</h6>
+                    <h1 class="card-text">{{ members|length }}</h1>
+                </div>
+            </div>
+
+            <div class="card text-white bg-secondary mb-4" style="min-width: 16rem;margin:0 auto">
+                <h2 class="card-header">Infos</h2>
+                <div class="card-body">
+                    <h6 class="card-title">Nombre d'infos publiées : </h6>
+                    <h1 class="card-text">{{ infos|length }}</h1>
+                </div>
+            </div>
+
+            <div class="card text-white bg-secondary mb-4" style="min-width: 16rem;margin:0 auto">
+                <h2 class="card-header">Messages</h2>
+                <div class="card-body">
+                    <h6 class="card-title">Nombre de messages postés :</h6>
+                    <h1 class="card-text">{{ messages|length }}</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<a class="btn btn-block btn-lg btn-admin admin-btn" href="{{ path('member_index') }}">Member</a>
+<a class="btn btn-block btn-lg btn-admin admin-btn" href="{{ path('private_group_index') }}">Groupes</a>
+<a class="btn btn-block btn-lg btn-admin admin-btn" href="{{ path('info_index') }}">Info</a>
+<a class="btn btn-block btn-lg btn-admin admin-btn" href="{{ path('message_index') }}">Message</a>
+<a class="btn btn-block btn-lg btn-admin admin-btn" href="{{ path('media_index') }}">Media</a>
+<a class="btn btn-block btn-lg btn-admin admin-btn" href="{{ path('category_index') }}">Category</a>
+<a class="btn btn-block btn-lg btn-admin admin-btn" href="{{ path('insta_index') }}">Instagram</a>
+{% endblock %}

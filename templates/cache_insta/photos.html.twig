@@ -1,0 +1,114 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello!{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css">
+{% endblock %}
+
+{% block body %}
+    <style>
+        ul.listeInfo img {
+            object-fit: cover;
+            width: 100%;
+            height: 90%;
+            box-shadow: 7px 1px 15px 5px grey;
+            border: 5px white;
+        }
+        .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+        .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    </style>
+    {#
+    {% for val in data %}
+            <img src="{{ val.lowResolution }}" />
+        {% endfor %}
+    #}
+    <div class="row">
+        <div class="col-lg-7">
+            <div id="mapid" style="width: 600px; height: 400px;"></div>
+
+        </div>
+        <!-- Dernières images instagram -->
+        <div class="col-lg-5" style="float: right;">
+            <ul class="listeInfo row">
+                {% for image in images %}
+                    <li class="col-lg-6">
+                        <div class="card" style="width: 9rem;">
+                            <img class="card-img-top" src="{{ image.getLowResolution }}" alt="Card image cap">
+                            <div class="card-body">
+                                <p class="card-text">{{ image.getcreatedTime|date("d/m/Y h:m") }}</p>
+                                <p class="card-text">{{ image.getLikes }} Likes</p>
+                                <p class="card-text">{{ image.getCaption }}</p>
+                            </div>
+                        </div>
+                    </li>
+                    <br/>
+                    {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    <script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"></script>
+
+    <script>
+
+        var mymap = L.map('mapid').setView([43.3, 5.4], 13);
+
+        L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+            maxZoom: 18,
+            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+                    '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+                    'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+            id: 'mapbox.streets'
+        }).addTo(mymap);
+
+        var UrlApi = "{{ path('api_instas_get_collection') }}?tags={{ hashtag }}&latitude%5Bbetween%5D=42.8%20AND%2044&longitude%5Bbetween%5D=4%20AND%207";
+
+        fetch(UrlApi)
+                .then(function (reponse) {
+                    return reponse.json();
+                })
+                .then(function (objetJson) {
+                    //Nombres de pages à charger
+                    var LastPage = objetJson['hydra:totalItems'] / 100;
+                    var NbPages = Math.ceil(LastPage);
+
+                    for (var page = 1; page < NbPages + 1; page++) {
+                        var url = UrlApi + '?page=' + page;
+                        fetch(url)
+                                .then(function (response) {
+                                    // SI ON VEUT GERER DU JSON
+                                    // ON VA TRANSFORMER LE RESULTAT EN OBJET JSON
+                                    return response.json();
+                                })
+                                .then(function (objetJson) {
+                                    var tableauInfo = objetJson["hydra:member"];
+                                    // BOUCLE POUR PARCOURIR LES INFOS UNE PAR UNE
+                                    for (var index = 0; index < tableauInfo.length; index++) {
+
+                                        var infoCourante = tableauInfo[index];
+
+                                        var title = infoCourante.title;
+                                        var latitude = infoCourante.latitude;
+                                        var longitude = infoCourante.longitude;
+                                        var description = infoCourante.description;
+                                        var publicationDate = infoCourante.publicationDate;
+                                        var image = infoCourante.lowResolution;
+                                        if (image)
+                                        {
+                                            if((latitude>=42.8 && latitude<=44) && (longitude>=4 && longitude <=7))
+                                            {
+                                                var marker = L.marker([latitude, longitude]).addTo(mymap)
+                                                    .bindPopup('<img class="img-fluid" src="' + image + '" />')
+                                                    .openPopup();
+                                            }
+
+                                        }
+                                    }
+                                });
+                    }
+                });
+    </script>
+
+{% endblock %}

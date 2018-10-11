@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Création{% endblock %}
+
+{% block body %}
+    <h1 class="Admin">Création</h1>
+
+    {{ include('info/_form.html.twig') }}
+<div class="Admin centre margin">
+    <a href="{{ path('info_index') }}"><button class="btn">Retour à la liste</button></a>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+
+    $(document).ready(function () {
+        $('.add-another-collection-widget').click(function (e) {
+            var list = $($(this).attr('data-list'));
+            var counter = list.data('widget-counter') | list.children().length;
+            if (!counter)
+            {
+                counter = list.children().length;
+            }
+            var newWidget = list.attr('data-prototype');
+            newWidget = newWidget.replace(/__name__/g, counter);
+            counter++;
+            list.data(' widget-counter', counter);
+            var newElem = $(list.attr('data-widget-tags')).html(newWidget);
+            newElem.appendTo(list);
+        });
+    });
+
+    </script>
+{% endblock %}
+

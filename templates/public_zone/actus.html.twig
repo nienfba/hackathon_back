@@ -1,0 +1,208 @@
+{% extends 'base-public.html.twig' %}
+
+{% block stylesheets %}
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css" />
+
+    <style>
+    
+/* Extra small devices (portrait phones, less than 576px) */
+/* No media query for `xs` since this is the default in Bootstrap */
+
+.box-map {
+    min-height:40vh;
+}
+.map {
+    min-height: 70vh;
+    width: 100%;
+    position:relative;
+    top:0;
+}
+ol.featureList {
+    overflow-y:scroll;
+    max-height:70vh;
+}
+
+/*
+.map {
+    min-height: 50vh;
+    position: fixed;
+    top: 10vh;
+    left: 0;
+    width: 100%;
+    z-index: 999;
+}
+.box-feature {
+    min-height: 80vh;
+}
+*/
+.navbar {
+    z-index:9999;
+}
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) 
+{ 
+
+    
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) 
+{ 
+    .map {
+        min-height: 75vh;
+        width: 100%;
+        position:relative;
+        top:0;
+    }
+    ol.featureList {
+        overflow-y:scroll;
+        max-height:70vh;
+    }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) 
+{ 
+    
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) 
+{
+    
+}
+
+.leaflet-marker-icon {
+    width: auto !important;
+    height: auto !important;
+}
+
+.leaflet-marker-icon.selected {
+    border:2px solid #aaff00;
+    opacity:0.8;
+    background-color:#fff176;
+    z-index:999 !important;
+}
+
+.leaflet-marker-icon:hover {
+    border:2px solid #0000ff;
+    opacity:0.8;
+    background-color:#fff176;
+    z-index:999 !important;
+}
+
+ol {
+    box-sizing:border-box;
+    display:flex;
+    flex-wrap:wrap;
+    list-style:none;
+    padding-left:0;
+}
+
+ol li.marker {
+    padding:0.5rem;
+    min-height:20vh;
+    width:47%;
+    border:1px solid #666666;
+    margin:0.25rem;
+}
+ol li.marker:hover {
+    background-color:#aaffaa;
+}
+
+ol li.selected {
+    background-color:#fff176;
+} 
+
+.my-icon {
+    color:#0091EA;
+}
+
+.fa-question {
+    color:red;
+}
+    </style>
+
+{% endblock %}
+
+{% block main %}
+        <div class="row" id="app">
+            <div class="col-sm-6">
+                <div class="box-map">
+                    <div class="map" id="map"></div>
+                </div>
+            </div>
+
+            <div class="col-sm-6">
+                <div class="box-feature">
+                    {% if currentCategory is not empty %}
+                        <h5 class="text-center">Catégorie : ${category.name}</h5>
+                    {% endif %}
+                    <h5 class="text-center">Les dernières infos (${ nbFeatureVisible }/{{ tabInfo|length }})</h5>
+                    <div v-if="nbFeatureVisible < 1"><span>(Aucune info dans cette zone)</span><h5>Pour voir les dernières infos, déplacez la carte ou agrandissez la zone visible!</h5></div>
+                    <ol class="featureList">
+                        <li class="feature marker" :data-id="feature.id" @click="featureMouseOver" @mouseover="featureMouseOver" v-for="(feature, index) in myMarkerFeatures" v-if="!feature.isOut"  :key="feature.id">
+                            <i v-bind:class="getIcon(feature)"></i> <small class="publicationDate">${feature.publicationDate }</small>
+                            <h6 title="${feature.id} (${feature.indice})"><a :href="feature.urlInfo">${feature.name}</a></h6>
+                            <div class="description">${feature.description}</div>
+                            <small class="username">de <a :href="feature.urlMember">${ feature.username }</a></small>
+                        </li>
+                    </ol>
+                </div>
+ 
+
+            </div>
+
+        </div>
+{% endblock %}
+
+{% block javascripts %}
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.min.js'></script>
+    <script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"></script>
+    <script>
+
+var baseUrlMini = "{{ asset('assets/mini-') }}";
+
+{% if currentCategory is not empty %}
+    var category = {
+            id: "{{ currentCategory.id }}",
+            name: "{{ currentCategory.name }}",
+            description: "{{ currentCategory.description }}",
+            urlName: "{{ currentCategory.urlName }}"
+        };
+{% endif %}
+
+var tabFeatures = 
+[{
+    id: 0,
+    name: 'Restaurants',
+    active: true,
+    features: [
+{% for info in tabInfo %}
+    {% if info.latitude and info.longitude %}
+{       id: "{{ info.id }}", 
+        name: `{{ info.title|trim }}`, 
+        type: "marker", 
+        lat: {{ info.latitude }}, 
+        lon: {{ info.longitude }}, 
+        isOut: false, 
+        username: "{{ info.member.username }}", 
+        publicationDate: "{{ info.publicationDate|date('H:i d/m/y') }}", 
+        description: `{{ info.description|trim }}`,  
+        urlInfo: "{{ path('info-public', {'id': info.id }) }}",
+        urlMember: "{{ path('member-public', {'id': info.member.id }) }}",
+        urlMini: '{{ info.media[0].url ?? "" }}',
+        icon: '{{ info.icon ?? "" }}'
+},
+    {% endif %}
+{% endfor %}
+        ],
+}];
+
+    </script>
+    <script src="{{ asset('assets/js/actus.js')}}?mtime="></script>
+
+{% endblock %}

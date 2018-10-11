@@ -1,0 +1,14 @@
+<h3>Message envoyer depuis la section contact de My Provence </h3>
+
+<p>Details:</p>
+
+<TABLE BORDER>
+	<TR>
+		<TH>Date</TH> <TH>Nom</TH> <TH>Email</TH> <TH>Sujet</TH> <TH>Message</TH><TH>IP</TH>
+	</TR>
+	<TR>
+		<TD> {{ contact.receptionDate | date('d/m/Y à H:i') }}</TD> <TD> {{ contact.name }} </TD> <TD> {{ contact.email }}</TD> <TD> {{ contact.subject }} </TD> <TD> {{ contact.message | nl2br }}</TD> <TD> {{ contact.ip }} </TD>
+	</TR>
+</TABLE>
+
+Thanks!

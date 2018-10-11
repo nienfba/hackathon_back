@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edition groupe privé{% endblock %}
+
+{% block body %}
+    <h1 class="Admin">Edition d'un groupe privé</h1>
+
+    {{ include('private_group/_form.html.twig', {'button_label': 'Update'}) }}
+<div class="Admin centre margin">
+    <a href="{{ path('private_group_index') }}"><button class="btn" title="Retour à la liste"><i class="fas fa-reply"></i></button></a>
+</div>
+<div class="Admin centre margin">
+    {{ include('private_group/_delete_form.html.twig') }}
+    </div>
+{% endblock %}

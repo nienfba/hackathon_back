@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello!{% endblock %}
+
+{% block stylesheets %}
+{% endblock %}
+
+{% block body %}
+    page hashtag
+
+    <main>
+        <section>
+            <h3>LISTE DES IMAGES</h3>
+            <div>
+                <input type="text" id="hashtag" >
+                <button type="submit" id="hashtagSearch">Rechercher</button>
+            </div>
+            <ul class="listeImage">
+            </ul>
+        </section>
+    </main>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        //$url = "http://localhost:8888/myprovence/public/api/instas?tags=marseille&latitude%5Bbetween%5D=42.8%20AND%2044&longitude%5Bbetween%5D=4%20AND%207";
+
+        $("#hashtagSearch").on("click",function(){
+                $(".listeImage").children().remove();
+            var hashtag = $("#hashtag").val();
+                $url = "{{ path('api_instas_get_collection') }}?tags="+hashtag+"&latitude%5Bbetween%5D=42.8%20AND%2044&longitude%5Bbetween%5D=4%20AND%207";
+                fetch($url)
+                    .then(function(response){
+                        return response.json();
+
+                    })
+                    .then(function(objectJS){
+                        // CA Y'EST J'AI UN OBJET JS AVEC TOUTES INFOS PLANQUEES DEDANS...
+                        // IL FAUT ALLER RECUPERER LES INFOS QUI NOUS INTERESSENT
+                        var tableauInfo = objectJS["hydra:member"];
+                        // objet.propriete OU objet["propriete"]
+                        // BOUCLE POUR PARCOURIR LES INFOS UNE PAR UNE
+                        for(var index=0; index < tableauInfo.length; index++) {
+
+                            var InstaCourante = tableauInfo[index];
+                            var lowUrl = InstaCourante.lowResolution;
+
+                            console.log(lowUrl);
+                            var baliseUl = document.querySelector("ul.listeImage");
+                            // DOM Document Object Model
+                            // AJOUTER UNE BALISE li
+                            var codeHtmlLi =      '<li>'
+                                + '<img src="'+lowUrl+'"/>'
+                                + '</li>';
+                            // AJOUTER NOTRE CODE POUR LA BALISE li DANS LA BALISE ul
+                            baliseUl.innerHTML += codeHtmlLi;
+
+
+                        }
+                    });
+
+        }
+        )
+
+    </script>
+{% endblock %}

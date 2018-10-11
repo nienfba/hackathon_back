@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edition des informations{% endblock %}
+
+{% block body %}
+    <h1 class="Admin">Edition des informations</h1>
+    {{ include('info/_form.html.twig', {'button_label': 'Sauve'}) }}
+<div class="Admin centre margin">
+    <a href="{{ path('info_index') }}"><button class="btn" title="Retour à la liste"><i class="fas fa-reply"></i></button></a>
+</div>
+<div class="Admin centre margin">
+    {{ include('info/_delete_form.html.twig') }}
+</div>
+{% endblock %}

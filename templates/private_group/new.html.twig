@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouveau Groupe Privé{% endblock %}
+
+{% block body %}
+    <h1 class="Admin">Création d'un groupe privé</h1>
+
+    {{ include('private_group/_form.html.twig') }}
+<div class="Admin centre margin">
+    <a href="{{ path('private_group_index') }}"><button class="btn" title="Retour à la liste"><i class="fas fa-reply"></i></button></a>
+</div>
+{% endblock %}

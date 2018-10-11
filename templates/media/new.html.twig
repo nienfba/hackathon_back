@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Création Media{% endblock %}
+
+{% block body %}
+    <h1 class="Admin">Création Media</h1>
+<div class="Admin margin">
+    {{ include('media/_form.html.twig') }}
+</div>
+<div class="Admin centre margin">
+    <a href="{{ path('media_index') }}"><button class="btn">Retour à la liste</button></a>
+    </div>
+{% endblock %}

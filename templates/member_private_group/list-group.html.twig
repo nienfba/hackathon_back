@@ -1,0 +1,37 @@
+{% extends 'base-membre.html.twig' %}
+
+{% block main %}
+    <h1>Liste des groupes</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Group Id</th>
+                <th>Group Name</th>
+                <th>Group Description</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for group in listeGroup %}
+            <tr>
+                <td>{{ group.id }}</td>
+                <td>{{ group.name }}</td>
+                <td>{{ group.description }}</td>
+                <td>
+                    <form action="{{ path('member_private_group_join') }}" method="post">
+                        <input type="hidden" name="privateGroupId" value="{{ group.id }}">
+                        <input class="btn btn-info btn-sm" type="submit" value="Demander à rejoindre ce groupe">
+                    </form>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a class="btn btn-secondary btn-lg btn-block"href="{{ path('member_zone') }}">Retour à l'espace membre</a>
+{% endblock %}

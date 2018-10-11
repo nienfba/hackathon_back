@@ -1,0 +1,164 @@
+{% extends 'base-membre.html.twig' %}
+
+{% block title %}New Info{% endblock %}
+
+{% block main %}
+    <h1>Publier une nouvelle info</h1>
+
+    {{ include('member_zone/_form.html.twig') }}
+
+{% endblock %}
+
+
+{% block javascripts %}
+<script>
+// FORCER LE HTTPS
+if ((window.location.protocol != "https:") && (location.hostname != "localhost")) {
+   location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
+}
+</script>
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.min.js'></script>
+    <script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"></script>
+    <script>
+var infoLatitude     = '{{ info.latitude ?? '' }}';
+var infoLongitude    = '{{ info.longitude ?? '' }}';
+
+var tabFeatures =
+[{
+    id: 0,
+    name: 'Restaurants',
+    active: true,
+    features: [
+    {% if info.latitude and info.longitude %}
+{ id: "{{ info.id }}", name: "{{ info.title }}", type: "marker", lat: {{ info.latitude }}, lon: {{ info.longitude }}, isOut: false, username: "{{ info.member.username }}", publicationDate: "{{ info.publicationDate|date('H:i - d/m/Y') }}", description: "{{ info.description }}" },
+    {% endif %}
+        ],
+}];
+
+
+
+var myApp = new Vue({
+    delimiters: ['${', '}'],
+    el: '#app',
+    data: {
+        userMarker: null,
+        map: null,
+        tileLayer: null,
+        myMarkerFeatures: [],
+        markerSelect: null,
+        layers: tabFeatures,
+        nbFeatureVisible:0,
+    },
+    mounted() {
+        this.initMap();
+        this.initLayers();
+    },
+    computed: {
+    },
+    methods: {
+
+
+        initLayers() {
+            this.layers.forEach((layer) => {
+                var markerFeatures = layer.features.filter(feature => feature.type === 'marker');
+
+                markerFeatures.forEach((feature) => {
+                    feature.leafletObject = L.marker([feature.lat, feature.lon]) //  feature.coords)
+                        .bindPopup(feature.name)
+                        .addTo(this.map);   // MONTRER SUR LA CARTE
+                    // POUR REVENIR DU MARKER VERS LE FEATURE
+                    feature.leafletObject.feature = feature;
+                });
+                // LH HACK
+                // console.log("initLayers");
+                // console.log(markerFeatures);
+                if (markerFeatures.length > 0)
+                    this.myMarkerFeatures = markerFeatures;
+            });
+
+            // GEOLOCALISATION DU NAVIGATEUR
+            this.map.locate({setView: true, maxZoom: 10});
+            function onLocationFound(e) {
+                var radius = 0;
+                var popup = "DEPLACEZ LE POINT POUR CHOISIR LA POSITION DE VOTRE INFO!";
+                if (e.accuracy) {
+                    radius = e.accuracy / 2;
+                    L.circle(e.latlng, radius).addTo(myApp.map);
+                    popup = "DEPLACEZ LE POINT POUR PRECISER LA POSITION DE VOTRE INFO!";
+                }
+
+                var latlng = e.latlng;
+                myApp.userMarker = L.marker(latlng, {draggable:true});
+
+                myApp.userMarker
+                        .addTo(myApp.map)
+                        .bindPopup(popup)
+                        .openPopup();
+
+                myApp.userMarker
+                       .on("move", function(e){
+                            // REMPLISSAGE DES CHAMPS INPUT
+                            $("#info_latitude").val(e.latlng.lat);
+                            $("#info_longitude").val(e.latlng.lng);
+                        });
+
+                // REMPLISSAGE DES CHAMPS INPUT
+                $("#info_latitude").val(latlng.lat);
+                $("#info_longitude").val(latlng.lng);
+            }
+
+            function onLocationError(e) {
+                // si la position n'est pas dispo,
+                // on se cale sur marseille par défaut...
+                var latlng = {lat: 43.3, lng: 5.4 };
+                myApp.map.setView([ latlng.lat, latlng.lng ], 10);
+                onLocationFound({latlng: latlng});
+            }
+
+            this.map.on('locationfound', onLocationFound);
+            this.map.on('locationerror', onLocationError);
+        },
+         
+        initMap() {
+            // https://leafletjs.com/examples/mobile/
+            this.map = L.map('map').fitWorld();
+
+            this.tileLayer = L.tileLayer(
+                'https://cartodb-basemaps-{s}.global.ssl.fastly.net/rastertiles/voyager/{z}/{x}/{y}.png', {
+                    maxZoom: 18,
+                    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, &copy; <a href="https://carto.com/attribution">CARTO</a>',
+                }
+            );
+
+            this.tileLayer.addTo(this.map);
+
+        },
+    },
+});
+
+    </script>
+    <script type="text/javascript" src="{{ asset ('assets/js/memberzone.js') }}"></script>
+
+{% endblock %}
+
+{% block stylesheets %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css" />
+
+<style>
+
+.public-info img {
+    height: 50vh;
+    object-fit:cover;
+}
+
+.box-map {
+    min-height:50vh;
+}
+.map {
+    min-height: 50vh;
+    width: 100%;
+    z-index: 999;
+}
+</style>
+{% endblock %}

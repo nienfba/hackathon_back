@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CloudMessage{% endblock %}
+
+{% block body %}
+    <h1>CloudMessage</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ cloud_message.id }}</td>
+            </tr>
+            <tr>
+                <th>IdMember</th>
+                <td>{{ cloud_message.idMember }}</td>
+            </tr>
+            <tr>
+                <th>Token</th>
+                <td>{{ cloud_message.token }}</td>
+            </tr>
+            <tr>
+                <th>Log</th>
+                <td>{{ cloud_message.log }}</td>
+            </tr>
+            <tr>
+                <th>DateSubscription</th>
+                <td>{{ cloud_message.dateSubscription ? cloud_message.dateSubscription|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td>{{ cloud_message.status }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('cloud_message_index') }}">back to list</a>
+
+    <a href="{{ path('cloud_message_edit', {'id': cloud_message.id}) }}">edit</a>
+
+    {{ include('cloud_message/_delete_form.html.twig') }}
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New CloudMessage{% endblock %}
+
+{% block body %}
+    <h1>Create new CloudMessage</h1>
+
+    {{ include('cloud_message/_form.html.twig') }}
+
+    <a href="{{ path('cloud_message_index') }}">back to list</a>
+{% endblock %}

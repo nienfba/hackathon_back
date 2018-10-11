@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Messages{% endblock %}
+
+{% block body %}
+    <h1 class="Admin">Messages</h1>
+<div class="Admin centre margin">
+    <a href="{{ path('message_new') }}"><button class="btn" title="Ajouter"><i class="fa fa-plus"></i></button></a>
+    </div>
+    <table class="table Admin">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Content</th>
+                <th>PublicationDate</th>
+                <th>Status</th>
+                <th>Ip</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for message in messages %}
+            <tr>
+                <td>{{ message.id }}</td>
+                <td>{{ message.content }}</td>
+                <td>{{ message.publicationDate ? message.publicationDate|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ message.status }}</td>
+                <td>{{ message.ip }}</td>
+                <td>
+                    <a href="{{ path('message_show', {'id': message.id}) }}"><button class="btn" title="Consulter"><i class="fa fa-eye"></i></button></a>
+                    <a href="{{ path('message_edit', {'id': message.id}) }}"><button class="btn" title="Editer"><i class="fa fa-pen"></i></button></a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">Aucun enregistrement trouvé</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+<div class="Admin centre margin">
+    <a href="{{ path('message_new') }}"><button class="btn" title="Ajouter"><i class="fa fa-plus"></i></button></a>
+    </div>
+{% endblock %}

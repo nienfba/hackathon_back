@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Création catégorie{% endblock %}
+
+{% block body %}
+    <h1 class="Admin">Création catégorie</h1>
+    <h2>{{ mytz }}</h2>
+    <div class="Admin margin">
+    {{ include('category/_form.html.twig') }}
+</div>
+    <div class="Admin centre margin">
+    <a href="{{ path('category_index') }}"><button class="btn" title="Retour à la liste"><i class="fas fa-reply"></i></button></a>
+    </div>
+{% endblock %}

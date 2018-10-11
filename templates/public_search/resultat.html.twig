@@ -1,0 +1,29 @@
+{% extends 'base-public.html.twig' %}
+
+{% block main %}
+
+    <div class="container">
+        <h3>Nous avons trouvé : {{ result|length }} infos publiées</h3>
+        <div class="row">
+            <ul>
+                {% for info in result %}
+                    <li class="row" title="{{ info.id }}">
+                        <div class="col-sm-3">
+                            {% if info.media|length == 0 %}
+                                <img class="img-fluid" src="{{ asset('assets/img/actus-default.jpg') }}">
+                            {% else %}
+                                <img class="img-fluid" src="{{ asset('assets/' ~ info.media[0].url) }}">
+                            {% endif %}
+                        </div>
+                        <div class="col-sm-9">
+                            <a href="{{ url('info-public', {'id' : info.id }) }}">{{ info.title }}</a> - info publiée le {{ info.publicationDate|date('d/m/Y à H:i')}}
+                            <p>{{ info.description }}</p>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+
+{% endblock %}

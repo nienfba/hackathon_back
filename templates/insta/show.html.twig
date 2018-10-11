@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Insta{% endblock %}
+
+{% block body %}
+    <h1 class="InstAdmin">Instagram</h1>
+    <div class="InstAdmin centre padding">
+    <a href="{{ path('insta_index') }}"><button class="btn" title="Retour à la liste"><i class="fas fa-reply"></i></button></a>
+    <a href="{{ path('insta_edit', {'id': instum.id}) }}"><button class="btn" title="Editer"><i class="fa fa-pen"></i></button></a>
+    </div>
+
+        <img src="{{ instum.StandardResolution }}" alt="" class="Insta" />
+
+    <div class="centre padding">
+        {{ include('insta/_delete_form.html.twig') }}
+        <br />
+    </div>
+    <table class="table InstAdmin">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ instum.id }}</td>
+            </tr>
+            <tr>
+                <th>Caption</th>
+                <td>{{ instum.caption }}</td>
+            </tr>
+            <tr>
+                <th>Link</th>
+                <td>{{ instum.link }}</td>
+            </tr>
+            <tr>
+                <th>User_username</th>
+                <td>{{ instum.userUsername }}</td>
+            </tr>
+            <tr>
+                <th>Type</th>
+                <td>{{ instum.instaType }}</td>
+            </tr>
+            <tr>
+                <th>Insta_id</th>
+                <td>{{ instum.instaId }}</td>
+            </tr>
+            <tr>
+                <th>Low_resolution</th>
+                <td>{{ instum.lowResolution }}</td>
+            </tr>
+            <tr>
+                <th>Standard_resolution</th>
+                <td>{{ instum.standardResolution }}</td>
+            </tr>
+            <tr>
+                <th>Thumbnail</th>
+                <td>{{ instum.thumbnail }}</td>
+            </tr>
+            <tr>
+                <th>Tags</th>
+                <td>{{ instum.tags }}</td>
+            </tr>
+            <tr>
+                <th>Location</th>
+                <td>{{ instum.location }}</td>
+            </tr>
+            <tr>
+                <th>Created_time</th>
+                <td>{{ instum.createdTime }}</td>
+            </tr>
+        </tbody>
+    </table>   
+{% endblock %}

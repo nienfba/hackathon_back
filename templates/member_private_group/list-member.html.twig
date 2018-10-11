@@ -1,0 +1,62 @@
+{% extends 'base-membre.html.twig' %}
+
+{% block main %}
+    <h1>Liste des membres</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Group Role</th>
+                <th>Join Status</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for member in listeMember %}
+            <tr>
+                <td>{{ member.member_id }}</td>
+                <td>{{ member.username }}</td>
+                <td>{{ member.email }}</td>
+                <td>{% if member.role is defined %}{{ member.role }}{% endif %}</td>
+                <td>{% if member.join_status is defined %}{{ member.join_status }}{% endif %}</td>
+                <td>
+                    {% if member.join_status is defined and member.join_status == "JOIN" %}
+                        <form action="{{ path('member_private_group_accept_join') }}" method="post">
+                            <input type="hidden" name="privateGroupId" value="{{ privateGroupId }}">
+                            <input type="hidden" name="memberId" value="{{ member.member_id }}">
+                            <input type="radio" id="admin" name="privateGroupMemberRole" value="GROUP_ADMIN"><label for="admin">Group Admin</label>
+                            <input type="radio" id="member" name="privateGroupMemberRole" value="GROUP_MEMBER"><label for="member">Group Member</label>
+                            <input type="radio" id="reader" name="privateGroupMemberRole" value="GROUP_READER" checked><label for="reader">Group Reader</label>
+                            <input class="btn btn-success btn-sm" type="submit" value="Accepter dans ce groupe">
+                        </form>
+                    {% else %}
+                    <form action="{{ path('member_private_group_invite') }}" method="post">
+                        <input type="hidden" name="privateGroupId" value="{{ privateGroupId }}">
+                        <input type="hidden" name="memberId" value="{{ member.member_id }}">
+                        <input type="radio" id="admin" name="privateGroupMemberRole" value="GROUP_ADMIN"><label for="admin">Group Admin</label>
+                        <input type="radio" id="member" name="privateGroupMemberRole" value="GROUP_MEMBER"><label for="member">Group Member</label>
+                        <input type="radio" id="reader" name="privateGroupMemberRole" value="GROUP_READER" checked><label for="reader">Group Reader</label>
+                        <input class="btn btn-success btn-sm" type="submit" value="Inviter dans ce groupe">
+                    </form>
+                    {% endif %}
+                    <form action="{{ path('member_private_group_remove_member') }}" method="post">
+                        <input type="hidden" name="privateGroupId" value="{{ privateGroupId }}">
+                        <input type="hidden" name="memberId" value="{{ member.member_id }}">
+                        <input class="btn btn-danger btn-sm" type="submit" value="Supprimer du groupe">
+                    </form>
+                    
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a class="btn btn-secondary btn-lg btn-block"href="{{ path('member_zone') }}">Retour à l'espace membre</a>
+{% endblock %}

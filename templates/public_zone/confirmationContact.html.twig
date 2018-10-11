@@ -1,0 +1,18 @@
+{% extends 'base-public.html.twig' %}
+
+{% block main %}
+
+
+<div class="jumbotron jumbotron-fluid">
+  <div class="container">
+    <h1 class="display-3">{{ name }} votre message a bien été envoyé !</h1>
+    <p class="lead">Nous ferons tout notre possible pour vous répondre dans les plus brefs délais...!</p>
+     <hr class="my-4">
+      <p class="lead">
+        <a class="btn btn-primary btn-lg" href="{{ path('home') }}" role="button">Accueil</a>
+      </p>
+  </div>
+</div>
+
+
+{% endblock %}

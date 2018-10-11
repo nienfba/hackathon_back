@@ -1,0 +1,24 @@
+{{ form_start(form) }}
+<div class="Admin margin">
+    <div class="col-lg-3">
+        {{ form_row(form.title) }}
+        {{ form_row(form.description) }}
+        {{ form_row(form.latitude) }}
+        {{ form_row(form.longitude) }}
+    </div>
+
+    <ul id="media-fields-list" class="col-lg-3" data-prototype="{{ form_widget(form.media.vars.prototype)|e }}"
+        data-widget-tags="{{ '<li></li>'|e }}">
+        {% for mediaField in form.media %}
+        <li>
+            {{ form_errors(mediaField) }}
+            {{ form_widget(mediaField) }}
+        </li>
+        {% endfor %}
+    </ul>
+    <button class="btn-danger">{{ button_label|default('Sauvegarder') }}</button>
+    </div>
+<div class="Admin margin centre">
+    <button type="btn" class="add-another-collection-widget btn btn-primary" title="Ajouter" data-list="#media-fields-list"><i class="fa fa-plus"></i></button>
+</div>
+{{ form_end(form) }}

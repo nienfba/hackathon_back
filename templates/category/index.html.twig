@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Catégorie{% endblock %}
+
+{% block body %}
+    <h1 class="Admin">Catégorie</h1>
+<div class="Admin centre margin">
+    <a href="{{ path('category_new') }}"><button class="btn" title="Ajouter"><i class="fa fa-plus"></i></button></a>
+</div>  
+    <table class="table Admin">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for category in categories %}
+            <tr>
+                <td>{{ category.id }}</td>
+                <td>{{ category.name }}</td>
+                <td>{{ category.description }}</td>
+                <td>
+                    <a href="{{ path('category_show', {'id': category.id}) }}"><button class="btn" title="Consulter"><i class="fa fa-eye"></i></button></a>
+                    <a href="{{ path('category_edit', {'id': category.id}) }}"><button class="btn" title="Editer"><i class="fa fa-pen"></i></button></a>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">Aucun enregistrement trouvé</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+<div class="Admin centre margin">
+    <a href="{{ path('category_new') }}"><button class="btn" title="Ajouter"><i class="fa fa-plus"></i></button></a>
+</div>    
+{% endblock %}

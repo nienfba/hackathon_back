@@ -1,0 +1,18 @@
+{% extends 'base-public.html.twig' %}
+
+{% block main %}
+
+  <div class="jumbotron jumbotron-fluid">
+    <div class="container">
+      <h1 class="display-4">Votre espace membre est déja activé !</h1>
+      <hr class="my-3">
+      <p class="lead">Vous pouvez dés à présent vous connecter !!</p>
+      {# <p class="lead">Merci pour votre inscription</p> #}
+      <hr class="my-3">
+      <p class="lead">
+        <a class="btn btn-primary btn-lg" href="{{ path('login') }}" role="button">Se connecter</a>
+      </p>
+    </div>
+  </div>
+
+{% endblock %}

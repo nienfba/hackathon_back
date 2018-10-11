@@ -1,0 +1,82 @@
+
+<section class="container Admin">
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="">
+                <h4>Bienvenue sur MyProvence</h4>
+                <p>Vous découvrez une info intéressante?<br>Vous pouvez partager vos dernières infos en temps réel sur notre site!</p>
+                <p>Vous avez besoin d'une information?<br>Vous pouvez aussi demander à la communauté de vous aider!</p>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <p>Rejoignez la communauté My Provence et participez:</p>
+            <ol>
+                <li><a href="{{ path('inscription') }}">inscrivez-vous</a></li>
+                <li>et ensuite <a href="{{ path('login') }}">connectez-vous</a></li>
+            </ol>
+            <p><a href="{{ path('actus') }}">Découvrez la carte des dernières infos</a></p>
+        </div>
+    </div>
+    <div class="row Admin">
+        <div class="col-sm-6">
+            <form class="form-inline my-2 my-lg-0" method="POST" action="{{ path('public_search') }}">
+                <input class="form-control mr-sm-2 dataSearch" type="search" name="search" placeholder="Rechercher par mot clé" aria-label="Rechercher">
+                <button class="btn btn-outline-success search" type="submit">Rechercher</button>
+            </form>
+        </div>
+        <div id="accordion" class="col-sm-6">
+            <div class="card">
+                <div class="card-header" id="headingOne">
+                    <h5 class="mb-0">
+                        <button class="btn btn-primary" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                            Recherche multicritère
+                        </button>
+                    </h5>
+                </div>
+                <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                    <div class="card-body">
+                        <div class="container">
+                            <form method="post" action="{{ path('public_multisearch') }}">
+                                <div class="row">
+                                    <div class='col-md-6'>
+                                        <div class="form-group">
+                                            <div class="input-group date" id="datetimepicker7" data-target-input="nearest">
+                                                <input type="text" name="dateStart" class="form-control datetimepicker-input" data-target="#datetimepicker7"/>
+                                                <div class="input-group-append" data-target="#datetimepicker7" data-toggle="datetimepicker">
+                                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class='col-md-6'>
+                                        <div class="form-group">
+                                            <div class="input-group date" id="datetimepicker8" data-target-input="nearest">
+                                                <input type="text" name="dateEnd" class="form-control datetimepicker-input" data-target="#datetimepicker8"/>
+                                                <div class="input-group-append" data-target="#datetimepicker8" data-toggle="datetimepicker">
+                                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-check">
+                                        {% for categorie in listeCategorie %}
+                                            <input class="form-check-input" type="checkbox" id="{{ categorie.id }}" name="feature" value="{{ categorie.description }}" />
+                                            <label class="form-check-label" for="scales">{{ categorie.description }}</label>
+                                            </br>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <button id="rechercher" class="btn btn-primary">Rechercher</button>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</section>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>{% block title %}MyProvence{% endblock %}</title>
+        <link rel="stylesheet" href="{{ asset ('assets/plugin/bootstrap.css') }}" type="text/css">
+        <link rel="stylesheet" href="{{ asset('assets/plugin/fontawesome/css/all.css') }}" type="text/css">
+        <link rel="stylesheet" href="{{ asset ('assets/css/style.css') }}" type="text/css">
+        {% block stylesheets %}{% endblock %}
+        {{ (app.user.extraCss ?? "")|raw }}
+    </head>
+    <body class="zone-admin container-fluid">
+
+{# /***
+ *    ██╗  ██╗███████╗ █████╗ ██████╗ ███████╗██████╗ 
+ *    ██║  ██║██╔════╝██╔══██╗██╔══██╗██╔════╝██╔══██╗
+ *    ███████║█████╗  ███████║██║  ██║█████╗  ██████╔╝
+ *    ██╔══██║██╔══╝  ██╔══██║██║  ██║██╔══╝  ██╔══██╗
+ *    ██║  ██║███████╗██║  ██║██████╔╝███████╗██║  ██║
+ *    ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚═════╝ ╚══════╝╚═╝  ╚═╝
+ *                                                    
+ */ #}
+
+        {% block header %}
+            {{ include('header.html.twig') }}
+        {% endblock %}
+
+{# /***
+ *    ███╗   ███╗ █████╗ ██╗███╗   ██╗
+ *    ████╗ ████║██╔══██╗██║████╗  ██║
+ *    ██╔████╔██║███████║██║██╔██╗ ██║
+ *    ██║╚██╔╝██║██╔══██║██║██║╚██╗██║
+ *    ██║ ╚═╝ ██║██║  ██║██║██║ ╚████║
+ *    ╚═╝     ╚═╝╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝
+ *                                    
+ */ #}
+ 
+        <main class="row">
+            <section class="col-xs-12 col-xl-10 offset-xl-1">
+                {% block body %}{% endblock %}
+            </section>
+        </main>
+
+{# /***
+ *    ███████╗ ██████╗  ██████╗ ████████╗███████╗██████╗ 
+ *    ██╔════╝██╔═══██╗██╔═══██╗╚══██╔══╝██╔════╝██╔══██╗
+ *    █████╗  ██║   ██║██║   ██║   ██║   █████╗  ██████╔╝
+ *    ██╔══╝  ██║   ██║██║   ██║   ██║   ██╔══╝  ██╔══██╗
+ *    ██║     ╚██████╔╝╚██████╔╝   ██║   ███████╗██║  ██║
+ *    ╚═╝      ╚═════╝  ╚═════╝    ╚═╝   ╚══════╝╚═╝  ╚═╝
+ *                                                       
+ */ #}
+
+        {% block footer %}
+            {{ include('footer.html.twig') }}
+        {% endblock %}
+
+{# /***
+ *    ███████╗ ██████╗██████╗ ██╗██████╗ ████████╗
+ *    ██╔════╝██╔════╝██╔══██╗██║██╔══██╗╚══██╔══╝
+ *    ███████╗██║     ██████╔╝██║██████╔╝   ██║   
+ *    ╚════██║██║     ██╔══██╗██║██╔═══╝    ██║   
+ *    ███████║╚██████╗██║  ██║██║██║        ██║   
+ *    ╚══════╝ ╚═════╝╚═╝  ╚═╝╚═╝╚═╝        ╚═╝   
+ *                                                
+ */ #}
+
+        <script type="text/javascript" src="{{ asset ('assets/plugin/jquery-3.3.1.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset ('assets/plugin/bootstrap.bundle.js') }}"></script>
+        <script type="text/javascript" src="{{ asset ('assets/js/script.js') }}"></script>
+        {% block javascripts %}{% endblock %}
+        {{ (app.user.extraJs ?? "")|raw }}
+    </body>
+</html>

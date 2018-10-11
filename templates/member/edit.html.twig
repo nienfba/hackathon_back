@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edition Membre{% endblock %}
+
+{% block body %}
+<h1 class="Admin">Edition Membre</h1>
+<div class="Admin centre margin">
+    <a href="{{ path('member_index') }}"><button class="btn" title="Retour à la liste"><i class="fas fa-reply"></i></button></a>
+    </div>
+<div class="Admin margin">
+    {{ include('member/_form.html.twig', {'button_label': 'Sauve'}) }}
+</div>
+<div class="Admin centre margin">
+
+    {{ include('member/_delete_form.html.twig') }}
+</div>
+{% endblock %}

@@ -1,0 +1,29 @@
+## LH: FICHIERS INUTILES
+*.log
+src/Migrations/
+/php.ini
+/public/php.ini
+/public/assets/upload/
+/public/assets/mini-upload/
+/public/assets/hd-upload/
+.env
+src/DataFixtures/contenu/*/*.jpg
+
+###> symfony/framework-bundle ###
+/.env
+/.env.dist
+.myprovence
+/public/bundles/
+/var/
+/vendor/
+###< symfony/framework-bundle ###
+
+###> symfony/phpunit-bridge ###
+.phpunit
+/phpunit.xml
+###< symfony/phpunit-bridge ###
+
+###> symfony/web-server-bundle ###
+/.web-server-pid
+###< symfony/web-server-bundle ###
+/nbproject/private/

@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CloudMessage index{% endblock %}
+
+{% block body %}
+    <h1>CloudMessage index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>IdMember</th>
+                <th>Token</th>
+                <th>Log</th>
+                <th>DateSubscription</th>
+                <th>Status</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for cloud_message in cloud_messages %}
+            <tr>
+                <td>{{ cloud_message.id }}</td>
+                <td>{{ cloud_message.idMember }}</td>
+                <td>{{ cloud_message.token }}</td>
+                <td>{{ cloud_message.log }}</td>
+                <td>{{ cloud_message.dateSubscription ? cloud_message.dateSubscription|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ cloud_message.status }}</td>
+                <td>
+                    <a href="{{ path('cloud_message_show', {'id': cloud_message.id}) }}"><button class="btn" title="Consulter"><i class="fa fa-eye"></i></button></a>
+                    <a href="{{ path('cloud_message_edit', {'id': cloud_message.id}) }}"><button class="btn" title="Editer"><i class="fa fa-pen"></i></button></a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">Aucun enregistrement trouvé</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('cloud_message_new') }}">Create new</a>
+{% endblock %}
