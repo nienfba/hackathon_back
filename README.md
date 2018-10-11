@@ -4,9 +4,44 @@ Code4Marseille est une association composée de 3 écoles de formation en web de
 
 L'objectif du Hackaton est de montrer la force de ces 3 formations a coder ensemble un projet en peu de temps. Ce projet, a destination des touristes désirant découvrir la magnifique région de Marseille et de ces environs, a une dimension temps réel et une dimension de partage entre utilisateurs non négligeable.
 
+## Requirements
+* Apache
+* MySql
+* Php > 7.1.3
+* Composer 1.7.2
+* Git
+
+## Installation des outils
+
+Selon votre système installez Mamp ou Wamp (vrsion 64bits) et pensez à sélectionner une version de PHP > à 7.1.3
+
+Installez composer soit directement sur votre machine windows en installant l’exécutable soit en utilisant le fichier composer.phar à la racine de votre projet. 
+Voir le site [Composer](https://getcomposer.org/download/)
+
+Installez la prise en charge de Git en ligne de commande [GIT](https://git-scm.com/downloads)
+
+
 ## Installation du Front
 
-Documentation Machine Locale 
+* Installez WAMP ou LAMP sur votre machine. 
+* Dans le répertoire du serveur Web local, créez un répertoire pour le projet front
+* Cloner le dépôt distant avec git clone `$ https://github.com/nienfba/hackathon_front.git`
+* Vous êtes prêt à utilisez le Front, connectez vous à votre dossier à partir de localhost (ex : http://localhost/hackthon_front)
+
+## Installation du Back
+
+* Installez WAMP ou LAMP sur votre machine
+* Dans le répertoire du serveur Web local, créez un répertoire pour le projet front
+* Cloner le dépôt distant avec git clone `$ https://github.com/nienfba/hackathon_back.git`
+* Configurez votre php.ini en modifiant la valeur memory_limit. Affectez la valeur -1 (mamory_limit=-1)
+
+### Installez Symfony et ses dépendances
+
+* utilisez composer en ligne de commande
+`$ composer update` ou `$php composer.phar update`
+* une fois le framework et ses dépendances mises à jour, modifier le fichier .env à la racine. Trouvez le ligne `$ DATABASE_URL=mysql://db_user:db_password@127.0.0.1:3306/db_name` 
+Remplacez db_user et db_password par vos valeur locales. Pour une installation standard de Wamp : 
+`$ DATABASE_URL=mysql://root:@127.0.0.1:3306/db_name` 
 
 Serveur Web Machine WAMP ou MAMP (pas de XAMP !): attention PHP > 7.1.3
     Modifier le php.ini > memory_limit = -1 pour installation Symfony par la suite
